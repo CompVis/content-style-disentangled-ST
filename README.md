@@ -32,3 +32,14 @@ Input             |  Cezanne to van Gogh
 ## Our previous work on Style Transfer
 - [A Content Transformation Block For Image Style Transfer (CVPR19)](https://github.com/CompVis/content-targeted-style-transfer)
 - [A Style-Aware Content Loss for Real-time HD Style Transfer (ECCV18)](https://github.com/CompVis/adaptive-style-transfer)
+
+## Reference
+If you use our work in your research, please cite us using the following BibTeX entry.
+```
+@conference{kotovenko2019iccv,
+  title={Content and Style Disentanglement for Artistic Style Transfer},
+  author={Kotovenko, Dmytro, adn Sanakoyeu, Artsiom, and Lang, Sabine, and Ommer, Bj\"orn},
+  booktitle={Proceedings of the International Conference on Computer Vision (ICCV)},
+  year={2019}
+}
+```
