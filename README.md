@@ -28,3 +28,7 @@ Input             |  Cezanne to van Gogh
 Input             |  Cezanne to van Gogh
 :-------------------------:|:-------------------------:
 ![](https://compvis.github.io/content-style-disentangled-ST/images/gif7.jpg)  |  [![Foo](https://compvis.github.io/content-style-disentangled-ST/images/gif7_hires_optimized_500px.gif "Hi-Res GIF")](https://compvis.github.io/content-style-disentangled-ST/images/gif7_hires_optimized.gif)
+
+## Our previous work on Style Transfer
+- [A Content Transformation Block For Image Style Transfer (CVPR19)](https://github.com/CompVis/content-targeted-style-transfer)
+- [A Style-Aware Content Loss for Real-time HD Style Transfer (ECCV18)](https://github.com/CompVis/adaptive-style-transfer)
