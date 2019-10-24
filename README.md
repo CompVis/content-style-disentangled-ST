@@ -14,15 +14,17 @@ Source code will be released soon.
 
 
 ### Style Interpolations
+Click on GIF for Hi-Res version.  
 
 Input             |  Cezanne to van Gogh
 :-------------------------:|:-------------------------:
-![](https://compvis.github.io/content-style-disentangled-ST/images/gif4.jpg)  |  ![](https://compvis.github.io/content-style-disentangled-ST/images/gif4_hires_optimized_500px.gif)
+![](https://compvis.github.io/content-style-disentangled-ST/images/gif4.jpg) | [![Foo](https://compvis.github.io/content-style-disentangled-ST/images/gif4_hires_optimized_500px.gif "Hi-Res GIF")](https://compvis.github.io/content-style-disentangled-ST/images/gif4_hires_optimized.gif)
+
 
 Input             |  Cezanne to van Gogh
 :-------------------------:|:-------------------------:
-![](https://compvis.github.io/content-style-disentangled-ST/images/gif3_500px.jpg)  |  ![](https://compvis.github.io/content-style-disentangled-ST/images/gif3_hires_optimized_500px.gif)
+![](https://compvis.github.io/content-style-disentangled-ST/images/gif3_500px.jpg)  |  [![Foo](https://compvis.github.io/content-style-disentangled-ST/images/gif3_hires_optimized_500px.gif "Hi-Res GIF")](https://compvis.github.io/content-style-disentangled-ST/images/gif3_hires_optimized.gif)
 
 Input             |  Cezanne to van Gogh
 :-------------------------:|:-------------------------:
-![](https://compvis.github.io/content-style-disentangled-ST/images/gif7.jpg)  |  ![](https://compvis.github.io/content-style-disentangled-ST/images/gif7_hires_optimized_500px.gif)
+![](https://compvis.github.io/content-style-disentangled-ST/images/gif7.jpg)  |  [![Foo](https://compvis.github.io/content-style-disentangled-ST/images/gif7_hires_optimized_500px.gif "Hi-Res GIF")](https://compvis.github.io/content-style-disentangled-ST/images/gif7_hires_optimized.gif)
