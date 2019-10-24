@@ -3,7 +3,7 @@
 
 [**Project page**](https://compvis.github.io/content-style-disentangled-ST/)
 
-[**Paper**] Coming soon
+[**Paper**](https://compvis.github.io/content-style-disentangled-ST/paper.pdf)
 
 [**Supplementary Material**] Coming soon
 
