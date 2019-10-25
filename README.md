@@ -7,8 +7,14 @@
 
 [**Supplementary Material**] Coming soon
 
-**Video Results:** 
-[Playlist](https://www.youtube.com/playlist?list=PLPXplX5Y1SzGOxo22bqZjV1V-_LgcmLnT) 
+
+
+### Video Results   
+
+[**Teaser video**](https://www.youtube.com/embed/KN_WTcQBUsU)   
+[Full playlist](https://www.youtube.com/playlist?list=PLPXplX5Y1SzGOxo22bqZjV1V-_LgcmLnT) 
+
+
 
 Source code will be released soon.
 
