@@ -1,18 +1,17 @@
 # Content and Style Disentanglement for Artistic Style Transfer
 ***Dmytro Kotovenko, Artsiom Sanakoyeu, Sabine Lang, Björn Ommer*,  ICCV 2019**
 
-[**Project page**](https://compvis.github.io/content-style-disentangled-ST/)
-
+[**Project page**](https://compvis.github.io/content-style-disentangled-ST/) | 
 [**Paper**](https://compvis.github.io/content-style-disentangled-ST/paper.pdf)
 
-[**Supplementary Material**] will be released soon
-
-[**Source code**] will be released soon
+[Supplementary Material] will be released soon .  
+[Source code] will be released soon
 
 ### Video Results   
 
-[**Teaser video**](https://www.youtube.com/embed/KN_WTcQBUsU)   
-[Full playlist](https://www.youtube.com/playlist?list=PLPXplX5Y1SzGOxo22bqZjV1V-_LgcmLnT) 
+[**Teaser video**](https://www.youtube.com/embed/KN_WTcQBUsU)    
+[Full playlist](https://www.youtube.com/playlist?list=PLPXplX5Y1SzGOxo22bqZjV1V-_LgcmLnT)
+
 
 ### Style Interpolations
 Click on GIF for Hi-Res version.  
