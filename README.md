@@ -2,9 +2,9 @@
 ***Dmytro Kotovenko, Artsiom Sanakoyeu, Sabine Lang, Björn Ommer*,  ICCV 2019**
 
 [**Project page**](https://compvis.github.io/content-style-disentangled-ST/) | 
-[**Paper**](https://compvis.github.io/content-style-disentangled-ST/paper.pdf)
+[**Paper**](https://compvis.github.io/content-style-disentangled-ST/paper.pdf) | 
+[**Supplementary Material**](https://compvis.github.io/content-style-disentangled-ST/Content_and_Style_Disentanglement_for_Artistic_Style_Transfer_ICCV19_supplementary.pdf)
 
-[Supplementary Material] will be released soon .  
 [Source code] will be released soon
 
 ### Video Results   
