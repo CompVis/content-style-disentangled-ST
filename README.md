@@ -5,7 +5,7 @@
 
 [**Paper**](https://compvis.github.io/content-style-disentangled-ST/paper.pdf)
 
-[**Supplementary Material**] Coming soon
+[**Supplementary Material**](https://compvis.github.io/content-style-disentangled-ST/Content_and_Style_Disentanglement_for_Artistic_Style_Transfer_ICCV19_supplementary.pdf)
 
 
 
