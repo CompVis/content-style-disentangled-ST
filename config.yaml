@@ -1,0 +1,14 @@
+ path_to_wikiart: '/export/home/asanakoy/workspace/wikiart/images'
+ path_to_art_dataset: './datasets/relevant_wikiart_plus2.csv'
+ path_to_content_dataset: '/export/home/dkotoven/workspace/Places2_dataset/data_large'
+ #path_to_content_dataset: './datasets/content_images_celebA_512.pckl'
+ artists_list: ['el-greco', 'rembrandt', 'ernst-ludwig-kirchner',
+                'claude-monet', 'paul-cezanne', 'samuel-peploe',
+                'camille-pissarro', 'edvard-munch',  'wassily-kandinsky',
+                'jackson-pollock', 'paul-gauguin', 'paul-signac',
+                'pablo-picasso', 'berthe-morisot', 'william-turner',
+                'vincent-van-gogh', 'amedeo-modigliani', 'jean-antoine-watteau',
+                'early-vincent-van-gogh',
+                'nicholas-roerich', 'piet-mondrian', 'salvador-dali',
+                'all-vincent-van-gogh', 'all-paul-gauguin']
+ techniques_list: ['oil'] #, 'watercolor', 'chalk', 'pastel']
