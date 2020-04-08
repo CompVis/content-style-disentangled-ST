@@ -7,6 +7,7 @@
 
 [**Supplementary Material**](https://compvis.github.io/content-style-disentangled-ST/Content_and_Style_Disentanglement_for_Artistic_Style_Transfer_ICCV19_supplementary.pdf)
 
+![pipeline](https://github.com/CompVis/content-style-disentangled-ST/blob/gh-pages/images/pipeline_5x_v3_cropped.jpg "Method pipeline")
 
 
 ### Video Results   
