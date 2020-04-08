@@ -5,6 +5,8 @@
 [**Paper**](https://compvis.github.io/content-style-disentangled-ST/paper.pdf) | 
 [**Supplementary Material**](https://compvis.github.io/content-style-disentangled-ST/Content_and_Style_Disentanglement_for_Artistic_Style_Transfer_ICCV19_supplementary.pdf)
 
+![pipeline](https://github.com/CompVis/content-style-disentangled-ST/blob/gh-pages/images/pipeline_5x_v3_cropped.jpg "Method pipeline")
+
 **Preliminary version of the source code is located in branch [dev_subm_1](https://github.com/CompVis/content-style-disentangled-ST/tree/dev_subm_1).** 
 
 ### Video Results   
