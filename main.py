@@ -15,69 +15,168 @@ def parse_list(str_value):
 parser = argparse.ArgumentParser(description='')
 
 ################################################# Model Configuration ##################################################
-parser.add_argument('--model_name', dest='model_name', default='model1', help='name of the model')
+parser.add_argument('--model_name',
+                    dest='model_name',
+                    default='model1',
+                    help='name of the model')
 
-parser.add_argument('--total_steps', dest='total_steps', type=int, default=int(1e6), help='total # of steps')
-parser.add_argument('--batch_size', dest='batch_size', type=int, default=1, help='# images in batch')
-parser.add_argument('--image_size', dest='image_size', type=int, default=256*3, help='extract crops of this size')
-parser.add_argument('--window_size', dest='window_size', type=int, default=256, help='define size of the smoothing '
-                                                                                     'window for local feature '
-                                                                                     'normalization layer')
-parser.add_argument('--style_dim', dest='style_dim', type=int, default=32, help='define size of the smoothing '
-                                                                                     'window for local feature '
-                                                                                     'normalization layer')
-parser.add_argument('--margin', dest='margin', type=float, default=0.2, help='Margin for triplet loss')
+parser.add_argument('--total_steps',
+                    dest='total_steps',
+                    type=int,
+                    default=int(1e6),
+                    help='total # of steps')
+parser.add_argument('--batch_size',
+                    dest='batch_size',
+                    type=int,
+                    default=1,
+                    help='# images in batch')
+parser.add_argument('--image_size',
+                    dest='image_size',
+                    type=int,
+                    default=256*3,
+                    help='extract crops of this size')
+parser.add_argument('--window_size',
+                    dest='window_size',
+                    type=int,
+                    default=256,
+                    help='define size of the smoothing window for local feature normalization layer')
+parser.add_argument('--style_dim',
+                    dest='style_dim',
+                    type=int,
+                    default=16,
+                    help='Size of the style vector.')
+parser.add_argument('--margin',
+                    dest='margin',
+                    type=float,
+                    default=0.2,
+                    help='Margin for triplet loss')
 
-parser.add_argument('--ngf', dest='ngf', type=int, default=32, help='# of generator(encoder-decoder) filters in '                                                                    'first conv layer')
-parser.add_argument('--ndf', dest='ndf', type=int, default=64, help='# of discriminator filters in first conv layer')
-parser.add_argument('--ncf', dest='ncf', type=int, default=1, help='# of classifier filters in first conv layer')
+parser.add_argument('--ngf',
+                    dest='ngf',
+                    type=int,
+                    default=32,
+                    help='# of generator(encoder-decoder) filters in first conv layer')
+parser.add_argument('--ndf',
+                    dest='ndf',
+                    type=int,
+                    default=64,
+                    help='# of discriminator filters in first conv layer')
+parser.add_argument('--ncf',
+                    dest='ncf',
+                    type=int,
+                    default=1,
+                    help='# of classifier filters in first conv layer')
 
-parser.add_argument('--input_nc', dest='input_nc', type=int, default=3, help='# of input image channels')
-parser.add_argument('--output_nc', dest='output_nc', type=int, default=3, help='# of output image channels')
+parser.add_argument('--input_nc',
+                    dest='input_nc',
+                    type=int,
+                    default=3,
+                    help='# of input image channels')
+parser.add_argument('--output_nc',
+                    dest='output_nc',
+                    type=int,
+                    default=3,
+                    help='# of output image channels')
 
 ################################################ Training Configuration ################################################
+parser.add_argument('--ptad',
+                    dest='path_to_art_dataset',
+                    type=str,
+                    default='./data/folder_with_diff_styles',
+                    help='Directory contains folders each representing different style.')
+parser.add_argument('--ptcd',
+                    dest='path_to_content_dataset',
+                    type=str,
+                    default='/path/to/Places2_dataset/data_large',
+                    help='Path to Places365 training dataset.')
 
-parser.add_argument('--lr', dest='lr', type=float, default=0.0002, help='initial learning rate for adam')
-parser.add_argument('--phase', dest='phase', default='train', help='train, test')
+parser.add_argument('--lr',
+                    dest='lr',
+                    type=float,
+                    default=0.0002,
+                    help='initial learning rate for adam')
+parser.add_argument('--phase',
+                    dest='phase',
+                    default='train',
+                    help='train, test')
 
-parser.add_argument('--save_freq', dest='save_freq', type=int, default=10000, help='save a model every save_freq steps')
-parser.add_argument('--continue_train', dest='continue_train', type=bool, default=False, help='if continue training, load the latest model: 1: true, 0: false')
+parser.add_argument('--save_freq',
+                    dest='save_freq',
+                    type=int,
+                    default=10000,
+                    help='save a model every save_freq steps')
+parser.add_argument('--continue_train',
+                    dest='continue_train',
+                    type=bool,
+                    default=False,
+                    help='if continue training, load the latest model: 1: true, 0: false')
 
-parser.add_argument('--generator_steps', dest='generator_steps', type=int, default=1, help='Number of generator steps.')
-parser.add_argument('--discriminator_steps', dest='discriminator_steps', type=int, default=1, help='Number of discriminator steps.')
+parser.add_argument('--generator_steps',
+                    dest='generator_steps',
+                    type=int,
+                    default=1,
+                    help='Number of generator steps.')
+parser.add_argument('--discriminator_steps',
+                    dest='discriminator_steps',
+                    type=int,
+                    default=1,
+                    help='Number of discriminator steps.')
 
-parser.add_argument('--artists_list',
-                    dest='artists_list',
-                    type=parse_list,
-                    default=['vincent-van-gogh,paul-cezanne'],
-                    help='Provide a list of artists we want to process. '
-                         'Without spaces, i.e vincent-van-gogh,paul-cezanne')
-
-parser.add_argument('--bks', dest='blurring_kernel_size', type=int, default=10, help='Size of the average pooling kernel '
-                                                                                     'we use to generate blurred images, we use '
-                                                                                     'to compare the original content image '
-                                                                                     'with the generated one.')
-parser.add_argument('--dsr', dest='discr_success_rate', type=float, default=0.8, help='Rate of trials that discriminator '
-                                                                                      'will win on average.')
+parser.add_argument('--bks',
+                    dest='blurring_kernel_size',
+                    type=int,
+                    default=10,
+                    help='Size of the average pooling kernel we use to generate blurred images.'
+                         'We use blurring to compare the original content image with the generated '
+                         'ones after blurring.')
+parser.add_argument('--dsr',
+                    dest='discr_success_rate',
+                    type=float,
+                    default=0.8,
+                    help='Rate of trials that discriminator will win on average.')
 
 ##################################################### Loss weights #####################################################
-parser.add_argument('--dlw', dest='discr_loss_weight',
-                    type=float, default=1., help='Weight of discriminator loss.')
-parser.add_argument('--cclw', dest='clsf_cont_loss_weight',
-                    type=float, default=1., help='Weight of content classifier loss.')
-parser.add_argument('--cslw', dest='clsf_style_loss_weight',
-                    type=float, default=1., help='Weight of style classifier loss.')
-parser.add_argument('--ilw', dest='image_loss_weight',
-                    type=float, default=200., help='Weight of image loss.')
-parser.add_argument('--cfplw', dest='cont_fp_loss_weight',
-                    type=float, default=1., help='Weight of content feature fixpoint loss.')
-parser.add_argument('--sfplw', dest='style_fp_loss_weight',
-                    type=float, default=1., help='Weight of style feature fixpoint loss.')
-parser.add_argument('--cplw', dest='content_preservation_loss_weight',
-                    type=float, default=0., help='Weight of content preservation loss. L2 distance between '
-                                                 'input photo and transfromed photo in encoder layer.')
-parser.add_argument('--tvlw', dest='tv_loss_weight',
-                    type=float, default=0., help='Weight of total variation loss.')
+parser.add_argument('--dlw',
+                    dest='discr_loss_weight',
+                    type=float,
+                    default=1.,
+                    help='Weight of discriminator loss.')
+parser.add_argument('--cclw',
+                    dest='clsf_cont_loss_weight',
+                    type=float,
+                    default=1.,
+                    help='Weight of content classifier loss.')
+parser.add_argument('--cslw',
+                    dest='clsf_style_loss_weight',
+                    type=float,
+                    default=1.,
+                    help='Weight of style classifier loss.')
+parser.add_argument('--ilw',
+                    dest='image_loss_weight',
+                    type=float,
+                    default=200.,
+                    help='Weight of image loss.')
+parser.add_argument('--cfplw',
+                    dest='cont_fp_loss_weight',
+                    type=float,
+                    default=1.,
+                    help='Weight of content feature fixpoint loss.')
+parser.add_argument('--sfplw',
+                    dest='style_fp_loss_weight',
+                    type=float,
+                    default=1.,
+                    help='Weight of style feature fixpoint loss.')
+parser.add_argument('--cplw',
+                    dest='content_preservation_loss_weight',
+                    type=float,
+                    default=0.,
+                    help='Weight of content preservation loss. L2 distance between encoder representations of '
+                         'the input photo and transfromed photo.')
+parser.add_argument('--tvlw',
+                    dest='tv_loss_weight',
+                    type=float,
+                    default=0.,
+                    help='Weight of total variation loss.')
 
 
 ############################################### Inference configuration ################################################
@@ -99,7 +198,6 @@ parser.add_argument('--original_size_inference', dest='original_size_inference',
 
 args = parser.parse_args()
 
-print("args.artists_list:", args.artists_list)
 
 def main(_):
 
@@ -111,37 +209,7 @@ def main(_):
         if args.phase == 'train':
             print('Start training.')
             model.train(args, ckpt_nmbr=args.ckpt_nmbr)
-        if args.phase == 'inference' or args.phase == 'test':
-            print("Start inference.")
-            model.inference(args=args,
-                            path_to_folder=args.inference_images_dir,
-                            resize_to_original=False,
-                            to_save_dir=args.save_dir,
-                            original_size_inference=args.original_size_inference,
-                            ckpt_nmbr=args.ckpt_nmbr)
-        if args.phase == 'inference_from_patches' or args.phase == 'test_from_patches':
-            print("Inference from patches with interpolation is started.")
-            model.inference_interpolation_from_patches(args=args,
-                            path_to_folder=args.inference_images_dir,
-                            resize_to_original=False,
-                            to_save_dir=args.save_dir,
-                            original_size_inference=args.original_size_inference,
-                            ckpt_nmbr=args.ckpt_nmbr)
 
-        if args.phase == 'test_as_train':
-            model.inference_as_train(args=args,
-                                     path_to_folder=args.inference_images_dir,
-                                     to_save_dir=args.save_dir,
-                                     ckpt_nmbr=args.ckpt_nmbr)
-        if args.phase == 'test_diff_scales':
-            model.inference_diff_scales(args=args,
-                                     path_to_folder=args.inference_images_dir,
-                                     to_save_dir=args.save_dir,
-                                     ckpt_nmbr=args.ckpt_nmbr)
-        if args.phase == 'extract_style_feats':
-            model.extract_style_feats(args=args,
-                                      ckpt_nmbr=args.ckpt_nmbr,
-                                      style_patch_sz=768)
         sess.close()
 
 if __name__ == '__main__':

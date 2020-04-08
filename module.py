@@ -26,22 +26,17 @@ def encoder(image, kernels, options, is_training=True, reuse=True, name="encoder
 
         c0 = tf.pad(image, [[0, 0], [15, 15], [15, 15], [0, 0]], PADDING_TYPE)
         c1 = tf.nn.relu(local_group_norm(input=conv2d(c0, kernels, 3, 1, padding='VALID', name='g_e1_c'),
-                                         is_training=is_training,
                                          name='g_e1_bn',
                                          window_size=options.window_size // 2))
         c2 = tf.nn.relu(local_group_norm(input=conv2d(c1, kernels, 3, 2, padding='VALID', name='g_e2_c'),
-                                         is_training=is_training,
                                          name='g_e2_bn',
                                          window_size=options.window_size // 4))
         c3 = tf.nn.relu(local_group_norm(conv2d(c2, kernels * 2, 3, 2, padding='VALID', name='g_e3_c'),
-                                         is_training=is_training,
                                          name='g_e3_bn'))
         c4 = tf.nn.relu(local_group_norm(conv2d(c3, kernels * 4, 3, 2, padding='VALID', name='g_e4_c'),
-                                         is_training=is_training,
                                          name='g_e4_bn',
                                          window_size=options.window_size // 8))
         c5 = tf.nn.relu(local_group_norm(conv2d(c4, kernels * 8, 3, 2, padding='VALID', name='g_e5_c'),
-                                         is_training=is_training,
                                          name='g_e5_bn',
                                          window_size=options.window_size // 16))
         return c5
@@ -70,30 +65,23 @@ def encoder_style(image, kernels, options, is_training=True, reuse=True, name="e
 
         B, H, W = tf.shape(image)[0], tf.minimum(tf.shape(image)[1], 256), tf.minimum(tf.shape(image)[2], 256)
 
-        print("image before crop:", image)
         image = tf.random_crop(image, size=[B, H, W, 3])
         image = tf.reshape(image, shape=[B, H, W, 3])
 
-        print("image after crop:", image)
 
         c0 = tf.pad(image, [[0, 0], [15, 15], [15, 15], [0, 0]], PADDING_TYPE)
         c1 = tf.nn.relu(local_group_norm(input=conv2d(c0, kernels, 3, 1, padding='VALID', name='g_e1_c'),
-                                         is_training=is_training,
                                          name='g_e1_bn',
                                          window_size=win_size // 2))
         c2 = tf.nn.relu(local_group_norm(input=conv2d(c1, kernels, 3, 2, padding='VALID', name='g_e2_c'),
-                                         is_training=is_training,
                                          name='g_e2_bn',
                                          window_size=win_size // 4))
         c3 = tf.nn.relu(local_group_norm(conv2d(c2, kernels * 2, 3, 2, padding='VALID', name='g_e3_c'),
-                                         is_training=is_training,
                                          name='g_e3_bn'))
         c4 = tf.nn.relu(local_group_norm(conv2d(c3, kernels * 4, 3, 2, padding='VALID', name='g_e4_c'),
-                                         is_training=is_training,
                                          name='g_e4_bn',
                                          window_size=win_size // 8))
         c5 = tf.nn.relu(local_group_norm(conv2d(c4, kernels * 8, 3, 2, padding='VALID', name='g_e5_c'),
-                                         is_training=is_training,
                                          name='g_e5_bn',
                                          window_size=win_size // 16))
 
@@ -149,14 +137,12 @@ def decoder(features, kernels, options, style=None, is_training=True, reuse=True
             y = local_group_norm(y,
                                  style=style,
                                  name=name + '_normalization1',
-                                 is_training=is_training,
                                  window_size=options.window_size // 32)
             y = lrelu(y)
             y = tf.layers.conv2d_transpose(y, dim, ks, s, name=name + '_c2')
             y = local_group_norm(y,
                                  style=style,
                                  name=name + '_normalization2',
-                                 is_training=is_training,
                                  window_size=options.window_size // 32)
             y = lrelu(y)
             return y + x
@@ -179,28 +165,24 @@ def decoder(features, kernels, options, style=None, is_training=True, reuse=True
         d1 = tf.nn.relu(local_group_norm(input=d1,
                                          style=style,
                                          name='g_d1_bn',
-                                         is_training=is_training,
                                          window_size=options.window_size // 16))
         # print("decoder d1 after local_group_norm", d1)
         d2 = deconv2d(d1, kernels * 4, 3, 2, name='g_d2_dc')
         d2 = tf.nn.relu(local_group_norm(input=d2,
                                          style=style,
                                          name='g_d2_bn',
-                                         is_training=is_training,
                                          window_size=options.window_size // 8))
 
         d3 = deconv2d(d2, kernels * 2, 3, 2, name='g_d3_dc')
         d3 = tf.nn.relu(local_group_norm(input=d3,
                                          style=style,
                                          name='g_d3_bn',
-                                         is_training=is_training,
                                          window_size=options.window_size // 4))
 
         d4 = deconv2d(d3, kernels, 3, 2, name='g_d4_dc')
         d4 = tf.nn.relu(local_group_norm(input=d4,
                                          style=style,
                                          name='g_d4_bn',
-                                         is_training=is_training,
                                          window_size=options.window_size // 2))
 
         d4 = tf.pad(d4, [[0, 0], [3, 3], [3, 3], [0, 0]], "REFLECT")

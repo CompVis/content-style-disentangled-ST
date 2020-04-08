@@ -18,88 +18,35 @@ TECHNIQUES_LIST = ['oil', 'watercolor', 'chalk', 'pastel']
 
 
 class ArtDataset():
-    def __init__(self, path_to_art_dataset, artists_list):
-        self.artists_list = artists_list
-        # Read dataset with paintings and corresponding labels.
-        dataset = pd.read_csv(filepath_or_buffer=path_to_art_dataset,
-                                  index_col='image_id',
-                                  sep='\t',
-                                  encoding='utf-8')
-        self.dataset = dataset[dataset['artist_slug'].isin(artists_list)]
-        print("Art dataset size for:", artists_list, "is", self.dataset.shape[0])
+    def __init__(self, path_to_art_dataset):
+        """
+        Initialize ArtDataset object. Images
+        :param path_to_art_dataset: path to dataset with images. Inside of the directory there are folders of images
+         for different styles/artists.
+        """
+        self.path_to_dataset = path_to_art_dataset
+        self.artists_list = os.listdir(self.path_to_dataset)
 
-    def extract_digits(self, s):
-        return int(''.join(c for c in s if c.isdigit()))
+        paths = []
+        artist_slugs = []
+        start_time = time.time()
+        for category_idx, artist_slug in enumerate(tqdm(self.artists_list)):
+            for file_name in tqdm(os.listdir(os.path.join(self.path_to_dataset, artist_slug))):
+                paths.append(os.path.join(self.path_to_dataset, artist_slug, file_name))
+                artist_slugs.append(artist_slug)
 
-    def get_df_statistics_given_column(self, df_orig, column_name, verbose=True):
-        if column_name not in df_orig.columns:
-            print("Column not found in dataframe.")
-            return 0
-        df = df_orig.copy()
-        df.fillna(value='NaN', inplace=True)
-        a = df[column_name].values
-        col_vals_counts = Counter(a)
-        if verbose:
-            print(col_vals_counts)
-        return col_vals_counts
 
-    def prepare_dataset(self,
-                        input_df,
-                        wikiart_dir=PATH_TO_WIKIART,
-                        to_normalize_date=True,
-                        verbose=True):
-        print("Prepare given dataset.csv...")
-        if 'image_id' not in input_df.columns:
-            input_df['image_id'] = input_df.index
-
-        if verbose: print("Input. input_df.shape:", input_df.shape)
-        input_df = input_df[['artist_slug', 'technique', 'date', 'image_id']]
-
-        if verbose: print("Leave only relevant columns. Dataframe.shape:", input_df.shape)
-        # Leave only specified artists
-        input_df = input_df[input_df['artist_slug'].isin(self.artists_list)]
-        if verbose: print("Leave only relevant artists. Dataframe.shape:", input_df.shape)
-
-        # Get rid of images without date
-        input_df = input_df[~input_df['date'].isnull()]
-        if verbose: print("Get rid of unspecified dates. Dataframe.shape:", input_df.shape)
-
-        # Leave only digits in date
-        if verbose: input_df['date'] = input_df['date'].apply(self.extract_digits)
-
-        # Normalize dates for each artist separately.
-
-        def date_normalization(df):
-            df['date'] = (df['date'] - df['date'].min()) / (df['date'].max() - df['date'].min())
-            return df
-        if to_normalize_date:
-            input_df = pd.concat([date_normalization(input_df[input_df['artist_slug'] == artis_slug])
-                                  for artis_slug in self.artists_list])
-
-        # generate column with path to image
-        input_df['path'] = input_df['image_id'].apply(lambda x: os.path.join(wikiart_dir, x+'.jpg'))
-        input_df.drop(['image_id'], axis=1, inplace=True)
-
-        if verbose:
-            print("Dataset statistics for each artist separately.")
-            for artist in self.artists_list:
-                print("%s:" % artist)
-                self.get_df_statistics_given_column(
-                    input_df[input_df['artist_slug'] == artist],
-                    column_name='technique')
-        print("Art dataset preprocessing completed.")
-
-        return input_df
+        self.dataset = pd.DataFrame(np.array([paths, artist_slugs]).T, columns=['path', 'artist_slug'])
+        print("\n")
+        print("Finished. Constructed Art dataset of %d images." % len(self.dataset))
+        print("Time elapsed: %fs." % (time.time() - start_time))
 
     def get_batch(self, augmentor, batch_size=1):
         """
-        Reads data from dataframe data containing path to images in column 'path' and, in case of dataframe,
-         also containing artist name, technique name, and period of creation for given artist.
-         In case of content images we have only the 'path' column.
+        Creates a batch of images from a folder self.path_to_art_dataset.
         Args:
-            data: dataframe with columns ['path', 'artist_slug', 'technique', 'period']
             augmentor: Augmentor object responsible for augmentation pipeline
-            batch_size: size of batch
+            batch_size: size of s batch
         Returns:
             dictionary with fields: image, artist_slug, artist_slug_onehot
             each containing a batch of corresponding values
@@ -175,8 +122,8 @@ class PlacesDataset():
          '/v/village', '/v/vineyard', '/v/volcano', '/w/waterfall', '/w/watering_hole', '/w/wave',
          '/w/wheat_field', '/z/zen_garden', '/a/alcove', '/a/apartment-building/outdoor', '/a/artists_loft',
          '/b/building_facade', '/c/cemetery']
+    # categories_names = categories_names[:10]
     categories_names = [x[1:] for x in categories_names]
-
     def __init__(self, path_to_dataset):
         paths = []
         categories = []
@@ -185,8 +132,6 @@ class PlacesDataset():
         categories_skipped = []
         start_time = time.time()
         for category_idx, category_name in enumerate(tqdm(self.categories_names)):
-            #category_name = category_name[1:]
-            #print("Process %d/%d category." % (category_idx + 1, len(categories_names)))
             if os.path.exists(os.path.join(path_to_dataset, category_name)):
                 for file_name in tqdm(os.listdir(os.path.join(path_to_dataset, category_name))):
                     paths.append(os.path.join(path_to_dataset, category_name, file_name))

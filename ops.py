@@ -30,15 +30,13 @@ def instance_norm(input, name="instance_norm", is_training=True):
         return scale*normalized + offset
 
 
-def group_norm(input, name="group_norm", is_training=True, G=16):
+def group_norm(input, name="group_norm", G=16):
     epsilon = 1e-5
     with tf.variable_scope(name):
         N, H, W, C = tf.shape(input)[0], tf.shape(input)[1], tf.shape(input)[2], tf.shape(input)[3]
         depth = input.get_shape()[3]
-        #N, H, W, C = input.get_shape().as_list()
         scale = tf.get_variable("scale", [depth], initializer=tf.random_normal_initializer(1.0, 0.02, dtype=tf.float32))
         offset = tf.get_variable("offset", [depth], initializer=tf.constant_initializer(0.0))
-        # input = tf.reshape(input, tf.concat(values=[N, H, W, C // G, G], axis=0))
         input = tf.reshape(input, [N, H, W, C // G, G])
         mean, var = tf.nn.moments(input, [1, 2, 3], keep_dims = True)
         input = (input - mean) / tf.sqrt(var + epsilon)
@@ -46,12 +44,9 @@ def group_norm(input, name="group_norm", is_training=True, G=16):
         return input * scale + offset
 
 
-def local_group_norm(input, style=None, name="local_group_norm", is_training=True, G=32, window_size=32):
+def local_group_norm(input, style=None, name="local_group_norm", G=32, window_size=32):
     epsilon = 1e-5
     with tf.variable_scope(name):
-        # print("\n\nIn local_group_norm", name)
-        # print("input:", input)
-        # print("style:", style)
         N, H, W, C = tf.shape(input)[0], tf.shape(input)[1], tf.shape(input)[2], tf.shape(input)[3]
 
         depth = input.get_shape()[3]
@@ -77,8 +72,6 @@ def local_group_norm(input, style=None, name="local_group_norm", is_training=Tru
             offset = tf.expand_dims(offset, axis=1)
             offset = tf.expand_dims(offset, axis=2)
 
-        # print("scale computed:", scale)
-        # print("offset computed:", offset)
         input_reshaped = tf.reshape(input, [N, H, W, C // G, G])
         means = tf.reduce_mean(input_reshaped, axis=-1, )
         means = tf.nn.separable_conv2d(input=means,
@@ -93,7 +86,6 @@ def local_group_norm(input, style=None, name="local_group_norm", is_training=Tru
 
                                            axis=0),
                                        strides=[1, window_size // 2, window_size // 2, 1],
-                                       # strides=[1, 4, 4, 1],
                                        padding='VALID')
         means = tf.image.resize_images(images=means,
                                        size=tf.shape(input)[1:3],
@@ -115,7 +107,6 @@ def local_group_norm(input, style=None, name="local_group_norm", is_training=Tru
 
                                           axis=0),
                                       strides=[1, window_size // 2, window_size // 2, 1],
-                                      # strides=[1, 4, 4, 1],
                                       padding='VALID')
         stds = tf.image.resize_images(images=stds,
                                       size=tf.shape(input)[1:3],
@@ -123,8 +114,6 @@ def local_group_norm(input, style=None, name="local_group_norm", is_training=Tru
         stds = tf.tile(tf.expand_dims(stds, axis=-1), [1, 1, 1, 1, G])
         input = (input_reshaped - means) / tf.sqrt(stds + epsilon)
         input = tf.reshape(input, [N, H, W, C])
-        # print("output:", input)
-        # print("local_group_norm", name, " is finished\n\n")
         return tf.multiply(input, scale) + offset
 
 
