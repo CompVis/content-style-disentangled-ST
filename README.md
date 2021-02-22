@@ -17,7 +17,7 @@
 
 ### Training 
 1) Download Places365 to use it as a content dataset: [Places365-Standard high-res train mages (105GB)](http://data.csail.mit.edu/places/places365/train_large_places365standard.tar).  
-2) Download a couple of artists images from our group [storage](https://hcicloud.iwr.uni-heidelberg.de/index.php/s/NcJj2oLBTYuT1tf).
+2) Download a couple of artists images from [link](https://drive.google.com/drive/folders/1yUgP4s6tgOC91fcL94cN2ocOqk7JUol9).
 We recommend taking first collection of Cezanne and Van Gogh images. 
 Place them in folders `./data/art_images/cezanne_vangogh/cezanne` and 
 `./data/art_images/cezanne_vangogh/vangogh` respectively.
